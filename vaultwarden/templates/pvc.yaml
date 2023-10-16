@@ -1,0 +1,15 @@
+{{- if .Values.vaultwarden.storage.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "vaultwarden.fullname" . }}
+  labels:
+    {{- include "vaultwarden.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.vaultwarden.storage.size }}
+  storageClassName: {{ .Values.vaultwarden.storage.class }}
+{{- end }}

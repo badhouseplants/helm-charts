@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vaultwarden.fullname" . }}
+  labels:
+    {{- include "vaultwarden.labels" . | nindent 4 }}
+data:
+  DOMAIN: {{ .Values.vaultwarden.domain | quote }}
+  {{- if and .Values.vaultwarden.smtp.host .Values.vaultwarden.smtp.from | quote }}
+  SMTP_HOST: {{ .Values.vaultwarden.smtp.host | quote }}
+  SMTP_SECURITY: {{ .Values.vaultwarden.smtp.security | quote }}
+  SMTP_PORT: {{ .Values.vaultwarden.smtp.port | quote }}
+  {{- if .Values.vaultwarden.smtp.authMechanism }}
+  SMTP_AUTH_MECHANISM: {{ .Values.vaultwarden.smtp.authMechanism | quote }}
+  {{- end }}
+  SMTP_FROM: {{ .Values.vaultwarden.smtp.from | quote }}
+  SMTP_FROM_NAME: {{ default "Vaultwarden" .Values.vaultwarden.smtp.fromName | quote }}
+  SMTP_DEBUG: {{ .Values.vaultwarden.smtp.debug | quote }}
+  SMTP_ACCEPT_INVALID_HOSTNAMES: {{ .Values.vaultwarden.smtp.acceptInvalidHostnames | quote }}
+  SMTP_ACCEPT_INVALID_CERTS: {{ .Values.vaultwarden.smtp.acceptInvalidCerts | quote }}
+  SMTP_USERNAME: {{ .Values.vaultwarden.smtp.username | quote }}
+  {{- end }}
+  {{- if .Values.vaultwarden.websocket.enabled }}
+  WEBSOCKET_ENABLED: "true"
+  WEBSOCKET_ADDRESS: {{ .Values.vaultwarden.websocket.address | quote }}
+  WEBSOCKET_PORT: {{ .Values.vaultwarden.websocket.port | quote }}
+  {{- end }}
+  DATA_FOLDER: {{ .Values.vaultwarden.storage.dataDir | quote }}
+  ROCKET_PORT: {{ .Values.vaultwarden.rocket.port | quote }}
+  ROCKET_WORKERS: {{ .Values.vaultwarden.rocket.workers | quote }}
+  SHOW_PASSWORD_HINT: {{ .Values.vaultwarden.showPassHint | quote }}
+  SIGNUPS_ALLOWED: {{ .Values.vaultwarden.signupsAllowed | quote }}
+  INVITATIONS_ALLOWED: {{ .Values.vaultwarden.invitationsAllowed | quote }}
+  SIGNUPS_DOMAINS_WHITELIST: {{ .Values.vaultwarden.signupDomains | quote }}
+  SIGNUPS_VERIFY: {{ .Values.vaultwarden.signupsVerify | quote }}
+  WEB_VAULT_ENABLED: {{ .Values.vaultwarden.webVaultEnabled | quote }}
+  {{- if .Values.vaultwarden.logging.enabled }}
+  LOG_FILE: {{ .Values.vaultwarden.logging.logfile | quote }}
+  LOG_LEVEL: {{ .Values.vaultwarden.logging.loglevel | quote }}
+  {{- end }}
+  DB_CONNECTION_RETRIES: {{ .Values.vaultwarden.database.connectionRetries | quote }}
+  DATABASE_MAX_CONNS: {{ .Values.vaultwarden.database.maxConnections | quote }}
