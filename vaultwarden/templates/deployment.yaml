@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vaultwarden.fullname" . }}
+  labels:
+    {{- include "vaultwarden.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "vaultwarden.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "vaultwarden.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.vaultwarden.storage.enabled }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "vaultwarden.fullname" . }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "vaultwarden.fullname" . }}
+          env:
+            {{- if or (.Values.vaultwarden.smtp.password.value) (.Values.vaultwarden.smtp.password.existingSecretKey )}}
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default "(include vaultwarden.fullname .)-smtp" .Values.vaultwarden.smtp.password.existingSecret }}
+                  key: {{ default "SMTP_PASSWORD" .Values.vaultwarden.smtp.password.existingSecretKey }}
+            {{- end }}
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ default "(include vaultwarden.fullname .)-admin-token" .Values.vaultwarden.adminToken.existingSecret }}"
+                  key: {{ default "ADMIN_TOKEN" .Values.vaultwarden.adminToken.existingSecretKey }}
+            {{- if ne "default" .Values.vaultwarden.database.type }}
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ default "(include vaultwarden.fullname .)-db-creds" .Values.vaultwarden.database.existingSecret }}"
+                  key: {{ default "DATABASE_URL" .Values.vaultwarden.database.existingSecretKey }}
+            {{- end }}
+          {{- if .Values.vaultwarden.storage.enabled }}
+          volumeMounts:
+            - mountPath: {{ .Values.vaultwarden.storage.dataDir }}
+              name: data
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
