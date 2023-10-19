@@ -58,19 +58,19 @@ spec:
             - name: SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ default "(include vaultwarden.fullname .)-smtp" .Values.vaultwarden.smtp.password.existingSecret }}
+                  name: {{ .Values.vaultwarden.smtp.password.existingSecret | default ( printf "%s-smtp" ( include "vaultwarden.fullname" . )) }}
                   key: {{ default "SMTP_PASSWORD" .Values.vaultwarden.smtp.password.existingSecretKey }}
             {{- end }}
             - name: ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: "{{ default "(include vaultwarden.fullname .)-admin-token" .Values.vaultwarden.adminToken.existingSecret }}"
+                  name: {{ .Values.vaultwarden.adminToken.existingSecret | default ( printf "%s-admin-token" ( include "vaultwarden.fullname" . )) }}
                   key: {{ default "ADMIN_TOKEN" .Values.vaultwarden.adminToken.existingSecretKey }}
             {{- if ne "default" .Values.vaultwarden.database.type }}
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: "{{ default "(include vaultwarden.fullname .)-db-creds" .Values.vaultwarden.database.existingSecret }}"
+                  name: {{ .Values.vaultwarden.database.existingSecret | default ( printf "%s-db-creds" ( include "vaultwarden.fullname" . ))  }}
                   key: {{ default "DATABASE_URL" .Values.vaultwarden.database.existingSecretKey }}
             {{- end }}
           {{- if .Values.vaultwarden.storage.enabled }}
