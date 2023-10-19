@@ -56,9 +56,9 @@ vaultwarden:
     host: ""
     security: "starttls"
     port: 25
-    from: ""
-    fromName: ""
-    username: ""
+    from: vaultwarden@badhouseplants.net
+    fromName: vaultwarden
+    username: vaultwarden
     password:
       value: "VerySecurePassword"
       existingSecret: ""
@@ -71,7 +71,7 @@ vaultwarden:
     existingSecret: ""
     existingSecretKey: ""
     value: "R@ndomToken$tring"
-  domain: ""
+  domain: "https://badhouseplants.vaultwarden.com"
   websocket:
     enabled: true
     address: "0.0.0.0"
@@ -82,7 +82,7 @@ vaultwarden:
   webVaultEnabled: "true"
   signupsAllowed: true
   invitationsAllowed: true
-  signupDomains: "contoso.com"
+  signupDomains: "https://badhouseplants.vaultwarden.com"
   signupsVerify: "true"
   showPassHint: "false"
   database:
