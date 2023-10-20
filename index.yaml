@@ -3,6 +3,28 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.29.0
+    created: "2023-10-20T07:07:54.209418179Z"
+    description: Unofficial Bitwarden compatible server written in Rust, formerly
+      known as bitwarden_rs
+    digest: 25e1496581cc6be7ad9edfaf537d9af030ccd59055c53af373acefb3a6d11fd3
+    home: https://github.com/dani-garcia/vaultwarden/tree/main
+    keywords:
+    - vaultwarden
+    - bitwarden
+    - bitwarden_rs
+    maintainers:
+    - email: allanger@badhouseplants.net
+      name: Nikolai Rodionov
+      url: https://badhouseplants.net
+    name: vaultwarden
+    sources:
+    - https://github.com/dani-garcia/vaultwarden/tree/main
+    type: application
+    urls:
+    - https://github.com/badhouseplants/helm-charts/releases/download/vaultwarden-0.1.1/vaultwarden-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.29.0
     created: "2023-10-20T06:31:57.206412216Z"
     description: Unofficial Bitwarden compatible server written in Rust, formerly
       known as bitwarden_rs
@@ -23,4 +45,4 @@ entries:
     urls:
     - https://github.com/badhouseplants/helm-charts/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-20T06:31:57.206418716Z"
+generated: "2023-10-20T07:07:54.209425279Z"
