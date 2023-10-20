@@ -2,5 +2,16 @@ apiVersion: v2
 name: vaultwarden
 description: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs
 type: application
-version: 0.0.2
-appVersion: "1.29.0"
+version: 0.1.0
+appVersion: 1.29.0
+maintainers:
+  - name: Nikolai Rodionov
+    email: allanger@badhouseplants.net
+    url: https://badhouseplants.net
+sources:
+  - https://github.com/dani-garcia/vaultwarden/tree/main
+keywords:
+  - vaultwarden
+  - bitwarden
+  - bitwarden_rs
+home: https://github.com/dani-garcia/vaultwarden/tree/main
