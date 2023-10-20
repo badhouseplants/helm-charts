@@ -40,3 +40,7 @@ data:
   {{- end }}
   DB_CONNECTION_RETRIES: {{ .Values.vaultwarden.database.connectionRetries | quote }}
   DATABASE_MAX_CONNS: {{ .Values.vaultwarden.database.maxConnections | quote }}
+  # -------------------------------------------------------------------
+  ORG_GROUPS_ENABLED: {{ .Values.vaultwarden.organizations.enabled | quote }}
+  ORG_EVENTS_ENABLED: {{ .Values.vaultwarden.organizations.orgEvents | quote }}
+  ORG_CREATION_USERS: {{ .Values.vaultwarden.organizations.crationUsers | quote }}
