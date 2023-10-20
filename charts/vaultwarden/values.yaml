@@ -100,3 +100,7 @@ vaultwarden:
     enabled: false
     logfile: "/data/vaultwarden.log"
     loglevel: "warn"
+  organizations:
+    enabled: false
+    orgEvents: false  # -- ORG_GROUPS_ENABLED
+    crationUsers: ""  # -- ORG_CREATION_USERS
