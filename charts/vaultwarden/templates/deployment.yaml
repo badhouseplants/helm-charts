@@ -40,14 +40,16 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          # livenessProbe:
-            # httpGet:
-              # path: /
-              # port: http
-          # readinessProbe:
-            # httpGet:
-              # path: /
-              # port: http
+          livenessProbe:
+            exec:
+              command:
+                - sh 
+                - /healthcheck.sh
+          readinessProbe:
+            exec:
+              command:
+                - sh 
+                - /healthcheck.sh
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
